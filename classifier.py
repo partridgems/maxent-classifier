@@ -20,6 +20,7 @@ class Classifier(object):
         if isinstance(model, (basestring, file)):
             self.load_model(model)
         else:
+            """This is a bug: it calls the set_model even if no parameter was passed in"""
             self.model = model
 
     def get_model(self): return None

@@ -4,6 +4,7 @@ from classifier import Classifier
 import numpy as np
 from math import exp, log
 import scipy.misc
+import sys
 
 class MaxEnt(Classifier):
 
@@ -12,9 +13,18 @@ class MaxEnt(Classifier):
         self.ling_features = 0
         self.labels = 0
 
-    def get_model(self): return self.model_params
+    def get_model(self):
+        return {'params':self.model_params,
+                'labels':self.labels,
+                'features':self.ling_features}
 
-    def set_model(self, model): self.model_params = model
+    def set_model(self, model):
+        """The constructor has a bug (in the provided code). This is my fix."""
+        if len(model) == 0: return
+        
+        self.model_params = model['params']
+        self.labels = model['labels']
+        self.ling_features = model['features']
 
     model = property(get_model, set_model)
 

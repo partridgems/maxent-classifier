@@ -69,7 +69,10 @@ class MaxEntTest(TestCase):
         train, dev, test, labels, features = self.split_review_corpus(Review)
         classifier = MaxEnt()
         classifier.train(train, labels, features, dev)
-        classifier.save("model")
+        classifier.save("mikes_model")
+
+        class2 = MaxEnt()
+        class2.load("mikes_model")
         self.assertGreater(accuracy(classifier, test), 0.55)
 
 if __name__ == '__main__':
