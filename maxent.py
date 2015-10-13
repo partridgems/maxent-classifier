@@ -25,7 +25,7 @@ class MaxEnt(Classifier):
         self.model_params = np.zeros( (len(self.labels), len(self.ling_features)) )
 
         """Train until converged"""
-        self.train_sgd(instances, dev_instances, 0.001, 30)
+        self.train_sgd(instances, dev_instances, 0.01, 30)
 
 
     def train_sgd(self, train_instances, dev_instances, learning_rate, batch_size):
@@ -47,7 +47,7 @@ class MaxEnt(Classifier):
                     self.model_params += gradient * learning_rate
                     likelihood = self.loglikelihood(dev_instances)
                     print "%.3f" % likelihood
-                    if likelihood > sum(likelihood_window)/win_size or times_through==1: # We're still improving
+                    if likelihood < sum(likelihood_window)/win_size or times_through==1: # We're still improving
                         """Update average window"""
                         del likelihood_window[0]
                         likelihood_window += [likelihood]
@@ -90,6 +90,6 @@ class MaxEnt(Classifier):
                 )
             )
 
-    def loglikelihood(self, instances):
-        return (sum(log(self.posterior(inst)) for inst in instances)
+    def nloglikelihood(self, instances):
+        return -(sum(log(self.posterior(inst)) for inst in instances)
             - sum([lam**2 for row in self.model_params for lam in row])) # Penalty term, sigma=1
