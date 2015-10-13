@@ -3,7 +3,6 @@ from maxent import MaxEnt
 from unittest import TestCase, main
 from random import shuffle, seed
 import sys
-import re
 
 
 class BagOfWords(Document):
@@ -15,7 +14,11 @@ class Review(Document):
     def raw_features(self):
         """Return raw (dense) features"""
         # return [word for word in self.data.split() if len(word)>2] + ['***BIAS TERM***']
-        return [word[:4] for word in re.sub(ur"\p{P}+","",self.data).lower().split()] + ['***BIAS TERM***']
+        return [word[:4] for word in stripPunctuation(self.data).lower().split()] + ['***BIAS TERM***']
+
+def stripPunctuation(text):
+    from unicodedata import category
+    return ''.join(ch for ch in text if category(ch)[0] != 'P')
 
 class Name(Document):
     def raw_features(self):
