@@ -34,6 +34,7 @@ class MaxEnt(Classifier):
         """maintain a window average of likelihood for convergence"""
         old_params =  np.copy(self.model_params) # This will be our 'go back' point when it stops improving
         old_likelihood = float("inf")
+        print "%3.f" % self.nloglikelihood(dev_instances)
 
         while True: # While not converged
             for index, instance in enumerate(train_instances):
@@ -62,6 +63,10 @@ class MaxEnt(Classifier):
         for lab, index in self.labels.items()}
         """return the label with the highest likelihood"""
         return max(labelscore, key=lambda k: labelscore[k])
+
+    def accuracy(self, instances):
+        """Classify and compute accuracy over a set"""
+        return float(sum([1 for ins in instances if self.classify(ins)==ins.label]))/len(instances)
 
     def gradient_per_instance(self, instance):
         """Compute the gradient function for this instance"""
