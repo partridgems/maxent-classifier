@@ -33,7 +33,7 @@ class MaxEnt(Classifier):
         gradient = np.zeros(( len(self.labels), len(self.ling_features) ))
         """maintain a window average of likelihood for convergence"""
         win_size = 10
-        likelihood_window = [float("-inf")] * (win_size-1) + [self.loglikelihood(dev_instances)]
+        likelihood_window = [float("-inf")] * (win_size-1) + [self.nloglikelihood(dev_instances)]
         times_through = 0
 
         while True: # While not converged
@@ -45,7 +45,7 @@ class MaxEnt(Classifier):
                 if index % batch_size == 0:
                     """Finished a batch, time to update gradient and check for convergence"""
                     self.model_params += gradient * learning_rate
-                    likelihood = self.loglikelihood(dev_instances)
+                    likelihood = self.nloglikelihood(dev_instances)
                     print "%.3f" % likelihood
                     if likelihood < sum(likelihood_window)/win_size or times_through==1: # We're still improving
                         """Update average window"""
