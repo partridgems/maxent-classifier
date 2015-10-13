@@ -34,7 +34,7 @@ class MaxEnt(Classifier):
         """maintain a window average of likelihood for convergence"""
         old_params =  np.copy(self.model_params) # This will be our 'go back' point when it stops improving
         old_likelihood = float("inf")
-        print "%3.f" % self.nloglikelihood(dev_instances)
+        print "%.3f" % self.nloglikelihood(dev_instances)
 
         while True: # While not converged
             for index, instance in enumerate(train_instances):
