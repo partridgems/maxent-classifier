@@ -36,7 +36,6 @@ class MaxEnt(Classifier):
         old_likelihood = float("inf")
 
         while True: # While not converged
-            print "\nNEXT PASS"
             for index, instance in enumerate(train_instances):
                 gradient += self.gradient_per_instance(instance)
                 """update params with gradient at batch_size intervals and check likelihood"""
