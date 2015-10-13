@@ -32,7 +32,7 @@ class MaxEnt(Classifier):
         """Train MaxEnt model with Mini-batch Stochastic Gradient """
         gradient = np.zeros(( len(self.labels), len(self.ling_features) ))
         """maintain a window average of likelihood for convergence"""
-        win_size = 10
+        win_size = 5
         likelihood_window = [float("-inf")] * (win_size-1) + [self.loglikelihood(dev_instances)]
         times_through = 0
 
