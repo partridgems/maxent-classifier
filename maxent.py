@@ -32,31 +32,29 @@ class MaxEnt(Classifier):
         """Train MaxEnt model with Mini-batch Stochastic Gradient """
         gradient = np.zeros(( len(self.labels), len(self.ling_features) ))
         """maintain a window average of likelihood for convergence"""
-        win_size = 10
-        likelihood_window = [float("-inf")] * (win_size-1) + [self.nloglikelihood(dev_instances)]
-        times_through = 0
+        old_params =  np.copy(self.model_params) # This will be our 'go back' point when it stops improving
+        old_likelihood = float("inf")
 
         while True: # While not converged
-            print 'Trips throgh the data: %d' % times_through
-            times_through += 1
             for index, instance in enumerate(train_instances):
                 gradient += self.gradient_per_instance(instance)
                 """update params with gradient at batch_size intervals and check likelihood"""
                 if index % batch_size == 0:
-                    """Finished a batch, time to update gradient and check for convergence"""
+                    """Finished a batch, time to update gradient"""
                     self.model_params += gradient * learning_rate
-                    likelihood = self.nloglikelihood(dev_instances)
-                    print "%.3f" % likelihood
-                    if likelihood < sum(likelihood_window)/win_size or times_through==1: # We're still improving
-                        """Update average window"""
-                        del likelihood_window[0]
-                        likelihood_window += [likelihood]
-                        gradient[:] = 0
-                    else: # We've stopped improving. Return with last good parameters
-                        print 'Stopped improving!'
-                        self.model_params -= gradient * learning_rate
-                        return
 
+            """Finished a trip through the data. Check for convergence"""
+            likelihood = self.nloglikelihood(dev_instances)
+            print "%.3f" % likelihood            
+            if likelihood < old_likelihood: # We're still improving
+                """Update parameters"""
+                np.copyto(old_params, self.model_params)
+                old_likelihood = likelihood
+                gradient[:] = 0
+            else: # We've stopped improving. Return with last good parameters
+                print 'Stopped improving!'
+                self.model_params = old_params
+                return
 
     def classify(self, instance):
         """compute feature dot model_params as a proxy for likelihood for each label"""
