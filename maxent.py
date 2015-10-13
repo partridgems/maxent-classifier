@@ -25,7 +25,7 @@ class MaxEnt(Classifier):
         self.model_params = np.zeros( (len(self.labels), len(self.ling_features)) )
 
         """Train until converged"""
-        self.train_sgd(instances, dev_instances, 0.0001, 30)
+        self.train_sgd(instances, dev_instances, 0.00001, 30)
 
 
     def train_sgd(self, train_instances, dev_instances, learning_rate, batch_size):
