@@ -14,7 +14,7 @@ class Review(Document):
     def raw_features(self):
         """Return raw (dense) features"""
         # return [word for word in self.data.split() if len(word)>2] + ['***BIAS TERM***']
-        return self.data.split() + ['***BIAS TERM***']
+        return [word[:3] for word in self.data.split().lower()] + ['***BIAS TERM***']
 
 class Name(Document):
     def raw_features(self):

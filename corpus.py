@@ -57,6 +57,8 @@ class Corpus(object):
             for feat in doc.raw_features():
                 if not feat in self.features_set:
                     self.features_set[feat] = len(self.features_set)
+
+        print "Feature set size: %d" % len(self.features_set)
         """Now we have the full set of features and labels with indexes"""
         """Set the features vector for each document"""
         for doc in self.documents:
