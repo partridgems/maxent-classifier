@@ -3,7 +3,7 @@ from maxent import MaxEnt
 from unittest import TestCase, main
 from random import shuffle, seed
 import sys
-import regex
+import re
 
 
 class BagOfWords(Document):
@@ -15,7 +15,7 @@ class Review(Document):
     def raw_features(self):
         """Return raw (dense) features"""
         # return [word for word in self.data.split() if len(word)>2] + ['***BIAS TERM***']
-        return [word[:4] for word in regex.sub(ur"\p{P}+","",self.data).lower().split()] + ['***BIAS TERM***']
+        return [word[:4] for word in re.sub(ur"\p{P}+","",self.data).lower().split()] + ['***BIAS TERM***']
 
 class Name(Document):
     def raw_features(self):
