@@ -66,7 +66,7 @@ class MaxEnt(Classifier):
 
     def accuracy(self, instances):
         """Classify and compute accuracy over a set"""
-        return float(sum([1 for ins in instances if self.classify(ins)==ins.label]))/len(instances)
+        return float(sum([100 for ins in instances if self.classify(ins)==ins.label]))/len(instances)
 
     def gradient_per_instance(self, instance):
         """Compute the gradient function for this instance"""
