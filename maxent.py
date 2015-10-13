@@ -25,14 +25,14 @@ class MaxEnt(Classifier):
         self.model_params = np.zeros( (len(self.labels), len(self.ling_features)) )
 
         """Train until converged"""
-        self.train_sgd(instances, dev_instances, 0.0001, 30)
+        self.train_sgd(instances, dev_instances, 0.001, 30)
 
 
     def train_sgd(self, train_instances, dev_instances, learning_rate, batch_size):
         """Train MaxEnt model with Mini-batch Stochastic Gradient """
         gradient = np.zeros(( len(self.labels), len(self.ling_features) ))
         """maintain a window average of likelihood for convergence"""
-        win_size = 5
+        win_size = 10
         likelihood_window = [float("-inf")] * (win_size-1) + [self.loglikelihood(dev_instances)]
         times_through = 0
 
