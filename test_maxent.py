@@ -53,9 +53,9 @@ class MaxEntTest(TestCase):
 
     def split_review_corpus(self, document_class):
         """Split the yelp review corpus into training, dev, and test sets"""
-        training_size = 100000
-        dev_size = 10000
-        test_size = 30000
+        training_size = 10000
+        dev_size = 1000
+        test_size = 3000
         total_records = training_size + dev_size + test_size
         reviews = ReviewCorpus('yelp_reviews.json', total_records, document_class=document_class)
         seed(hash("reviews"))
