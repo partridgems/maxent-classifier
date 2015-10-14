@@ -34,22 +34,22 @@ def accuracy(classifier, test, verbose=sys.stderr):
 class MaxEntTest(TestCase):
     u"""Tests for the MaxEnt classifier."""
 
-    # def split_names_corpus(self, document_class=Name):
-    #     """Split the names corpus into training, dev, and test sets"""
-    #     names = NamesCorpus("names/*.txt", 0, document_class=document_class)
-    #     self.assertEqual(len(names), 5001 + 2943) # see names/README
-    #     seed(hash("names"))
-    #     shuffle(names)
-    #     return (names[:5000], names[5000:6000], names[6000:], 
-    #         names.label_set, names.features_set)
+    def split_names_corpus(self, document_class=Name):
+        """Split the names corpus into training, dev, and test sets"""
+        names = NamesCorpus("names/*.txt", 0, document_class=document_class)
+        self.assertEqual(len(names), 5001 + 2943) # see names/README
+        seed(hash("names"))
+        shuffle(names)
+        return (names[:5000], names[5000:6000], names[6000:], 
+            names.label_set, names.features_set)
 
-    # def test_names_nltk(self):
-    #     """Classify names using NLTK features"""
-    #     train, dev, test, labels, features = self.split_names_corpus()
-    #     classifier = MaxEnt()
-    #     classifier.train(train, labels, features, dev)
-    #     acc = accuracy(classifier, test)
-    #     self.assertGreater(acc, 0.70)
+    def test_names_nltk(self):
+        """Classify names using NLTK features"""
+        train, dev, test, labels, features = self.split_names_corpus()
+        classifier = MaxEnt()
+        classifier.train(train, labels, features, dev)
+        acc = accuracy(classifier, test)
+        self.assertGreater(acc, 0.70)
 
     def split_review_corpus(self, document_class):
         """Split the yelp review corpus into training, dev, and test sets"""
