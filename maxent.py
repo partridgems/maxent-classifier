@@ -21,7 +21,7 @@ class MaxEnt(Classifier):
     def set_model(self, model):
         """The constructor has a bug (in the provided code). This is my fix."""
         if len(model) == 0: return
-        
+
         self.model_params = model['params']
         self.labels = model['labels']
         self.ling_features = model['features']
@@ -44,7 +44,7 @@ class MaxEnt(Classifier):
         """maintain a window average of likelihood for convergence"""
         old_params =  np.copy(self.model_params) # This will be our 'go back' point when it stops improving
         old_likelihood = float("inf")
-        print "%.3f     %2.1f%%" % (self.nloglikelihood(dev_instances), self.accuracy(dev_instances))
+        print "%5.3f     %2.1f%%" % (self.nloglikelihood(dev_instances), self.accuracy(dev_instances))
 
         while True: # While not converged
             for index, instance in enumerate(train_instances):
@@ -56,7 +56,7 @@ class MaxEnt(Classifier):
 
             """Finished a trip through the data. Check for convergence"""
             likelihood = self.nloglikelihood(dev_instances)
-            print "%4.3f     %2.1f%%" % (likelihood, self.accuracy(dev_instances))
+            print "%5.3f     %2.1f%%" % (likelihood, self.accuracy(dev_instances))
             if likelihood < old_likelihood: # We're still improving
                 """Update parameters"""
                 np.copyto(old_params, self.model_params)
